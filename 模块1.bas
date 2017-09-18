@@ -1,14 +1,11 @@
-Attribute VB_Name = "Ä£¿é1"
-'³Âè÷Ô´,lianjie
-'¸£ÓÀµØ·½Ë°ÎñËù
-'ÈÕÆÚ£º2016-08-30
-'ÈÕÆÚ£º2017-07-13
-'°æÈ¨ËùÓĞ£¬ÇëÎğ´«²¥£¬ÎğĞŞ¸Ä
+Attribute VB_Name = "æ¨¡å—1"
+'æ—¥æœŸï¼š2016-08-30
+'æ—¥æœŸï¼š2017-07-13
 
-'·¨¶¨·ÑÓÃ¿Û³ı¶î¸³Öµ
+'æ³•å®šè´¹ç”¨æ‰£é™¤é¢èµ‹å€¼
 Function FdfykceFz(sdxm As String, sdqjq As Date, sdqjz As Date, sre As Double, mssd As Double, hj As Double) As Double
     sdxm = LTrim(sdxm)
-    If sdxm = "Õı³£¹¤×ÊĞ½½ğ" Then
+    If sdxm = "æ­£å¸¸å·¥èµ„è–ªé‡‘" Then
         If sdqjq >= #1/9/1980# And sdqjz <= #2/29/2008# And sdqjq <= sdqjz Then
             FdfykceFz = 1600
         ElseIf sdqjq >= #1/3/2008# And sdqjz <= #8/31/2011# And sdqjq <= sdqjz Then
@@ -17,7 +14,7 @@ Function FdfykceFz(sdxm As String, sdqjq As Date, sdqjz As Date, sre As Double, 
             FdfykceFz = 3500
         End If
         
-        ElseIf sdxm = "Íâ¼®ÈËÔ±Õı³£¹¤×ÊĞ½½ğ" Then
+        ElseIf sdxm = "å¤–ç±äººå‘˜æ­£å¸¸å·¥èµ„è–ªé‡‘" Then
             If sdqjq >= #1/9/1980# And sdqjz <= #12/31/2005# And sdqjq <= sdqjz Then
                 FdfykceFz = 4000
             ElseIf sdqjq >= #1/1/2006# And sdqjz <= #12/31/2050# And sdqjq <= sdqjz Then
@@ -26,7 +23,7 @@ Function FdfykceFz(sdxm As String, sdqjq As Date, sdqjz As Date, sre As Double, 
                 FdfykceFz = 0
             End If
 
-        ElseIf sdxm = "ÀÍÎñ±¨³êËùµÃ" Or sdxm = "¸å³êËùµÃ" Or sdxm = "ÌØĞíÈ¨Ê¹ÓÃ·ÑËùµÃ" Or sdxm = "ÆäËû²Æ²ú×âÁŞËùµÃ" Or sdxm = "¸öÈË·¿Îİ³ö×âËùµÃ" Then
+        ElseIf sdxm = "åŠ³åŠ¡æŠ¥é…¬æ‰€å¾—" Or sdxm = "ç¨¿é…¬æ‰€å¾—" Or sdxm = "ç‰¹è®¸æƒä½¿ç”¨è´¹æ‰€å¾—" Or sdxm = "å…¶ä»–è´¢äº§ç§Ÿèµæ‰€å¾—" Or sdxm = "ä¸ªäººæˆ¿å±‹å‡ºç§Ÿæ‰€å¾—" Then
             If (sre - mssd - hj) <= 4000 Then
                 FdfykceFz = 800
             Else
@@ -40,11 +37,11 @@ Function FdfykceFz(sdxm As String, sdqjq As Date, sdqjz As Date, sre As Double, 
 
 End Function
 
-'Ë°ÂÊ¸³Öµ
+'ç¨ç‡èµ‹å€¼
 Function SlFz(sdxm As String, sdqjq As Date, sdqjz As Date, ynssde As Double) As String
     sdxm = LTrim(sdxm)
-    If sdxm = "Õı³£¹¤×ÊĞ½½ğ" Or sdxm = "Íâ¼®ÈËÔ±Õı³£¹¤×ÊĞ½½ğ" Or sdxm = "È«ÄêÒ»´ÎĞÔ½±½ğÊÕÈë" Or sdxm = "Íâ¼®ÈËÔ±ÊıÔÂ½±½ğ" Then
-        If sdxm = "È«ÄêÒ»´ÎĞÔ½±½ğÊÕÈë" Or sdxm = "Íâ¼®ÈËÔ±ÊıÔÂ½±½ğ" Then
+    If sdxm = "æ­£å¸¸å·¥èµ„è–ªé‡‘" Or sdxm = "å¤–ç±äººå‘˜æ­£å¸¸å·¥èµ„è–ªé‡‘" Or sdxm = "å…¨å¹´ä¸€æ¬¡æ€§å¥–é‡‘æ”¶å…¥" Or sdxm = "å¤–ç±äººå‘˜æ•°æœˆå¥–é‡‘" Then
+        If sdxm = "å…¨å¹´ä¸€æ¬¡æ€§å¥–é‡‘æ”¶å…¥" Or sdxm = "å¤–ç±äººå‘˜æ•°æœˆå¥–é‡‘" Then
             ysJe = ynssde / 12
         Else
             ysJe = ynssde
@@ -87,7 +84,7 @@ Function SlFz(sdxm As String, sdqjq As Date, sdqjz As Date, ynssde As Double) As
                 SlFz = "0.45(13,505.00)"
             End If
         End If
-    ElseIf sdxm = "ÀÍÎñ±¨³êËùµÃ" Then
+    ElseIf sdxm = "åŠ³åŠ¡æŠ¥é…¬æ‰€å¾—" Then
         If ynssde >= 0 And ynssde <= 20000 Then
             SlFz = "0.20(0.00)"
         ElseIf ynssde > 20000 And ynssde <= 50000 Then
@@ -95,25 +92,25 @@ Function SlFz(sdxm As String, sdqjq As Date, sdqjz As Date, ynssde As Double) As
         ElseIf ynssde > 50000 Then
             SlFz = "0.40(7,000.00)"
         End If
-    ElseIf sdxm = "¸å³êËùµÃ" Then
-        SlFz = "0.20(¸å³êËùµÃ)"
-    ElseIf sdxm = "ÌØĞíÈ¨Ê¹ÓÃ·ÑËùµÃ" Then
-        SlFz = "0.20(ÌØĞíÈ¨Ê¹ÓÃ·ÑËùµÃ)"
-    ElseIf sdxm = "ÀûÏ¢¡¢¹ÉÏ¢¡¢ºìÀûËùµÃ" And ynssde >= 0 Then
-        SlFz = "0.20(ÆäËûÀûÏ¢¡¢¹ÉÏ¢¡¢ºìÀûËùµÃ)"
-    ElseIf sdxm = "ÆäËû²Æ²ú×ªÈÃËùµÃ" And ynssde >= 0 Then
-        SlFz = "0.20(ÆäËû×ªÈÃËùµÃ)"
-    ElseIf sdxm = "¸öÈË·¿Îİ³ö×âËùµÃ" And ynssde >= 0 Then
-        SlFz = "0.10(¸öÈË·¿Îİ³ö×âËùµÃ)"
-    ElseIf sdxm = "Å¼È»ËùµÃ" And ynssde >= 0 Then
-        SlFz = "0.20(Å¼È»ËùµÃ)"
-    ElseIf sdxm = "ÆäËûËùµÃ" And ynssde >= 0 Then
-        SlFz = "0.20(ÆäËûËùµÃ)"
-    ElseIf sdxm = "¸öÈË·¿Îİ×ªÈÃËùµÃ" And ynssde >= 0 Then
-        SlFz = "0.20(·¿Îİ×ªÈÃËùµÃ)"
-    ElseIf sdxm = "ÆäËû²Æ²ú×âÁŞËùµÃ" Then
-        SlFz = "0.20(ÆäËû²Æ²ú×âÁŞËùµÃ)"
-    ElseIf sdxm = "¹ÉÈ¨×ªÈÃËùµÃ" Or sdxm = "¹ÉÆ±×ªÈÃËùµÃ" Or sdxm = "²Æ²úÅÄÂôËùµÃ¼°»ØÁ÷ÎÄÎïÅÄÂôËùµÃ" Then
+    ElseIf sdxm = "ç¨¿é…¬æ‰€å¾—" Then
+        SlFz = "0.20(ç¨¿é…¬æ‰€å¾—)"
+    ElseIf sdxm = "ç‰¹è®¸æƒä½¿ç”¨è´¹æ‰€å¾—" Then
+        SlFz = "0.20(ç‰¹è®¸æƒä½¿ç”¨è´¹æ‰€å¾—)"
+    ElseIf sdxm = "åˆ©æ¯ã€è‚¡æ¯ã€çº¢åˆ©æ‰€å¾—" And ynssde >= 0 Then
+        SlFz = "0.20(å…¶ä»–åˆ©æ¯ã€è‚¡æ¯ã€çº¢åˆ©æ‰€å¾—)"
+    ElseIf sdxm = "å…¶ä»–è´¢äº§è½¬è®©æ‰€å¾—" And ynssde >= 0 Then
+        SlFz = "0.20(å…¶ä»–è½¬è®©æ‰€å¾—)"
+    ElseIf sdxm = "ä¸ªäººæˆ¿å±‹å‡ºç§Ÿæ‰€å¾—" And ynssde >= 0 Then
+        SlFz = "0.10(ä¸ªäººæˆ¿å±‹å‡ºç§Ÿæ‰€å¾—)"
+    ElseIf sdxm = "å¶ç„¶æ‰€å¾—" And ynssde >= 0 Then
+        SlFz = "0.20(å¶ç„¶æ‰€å¾—)"
+    ElseIf sdxm = "å…¶ä»–æ‰€å¾—" And ynssde >= 0 Then
+        SlFz = "0.20(å…¶ä»–æ‰€å¾—)"
+    ElseIf sdxm = "ä¸ªäººæˆ¿å±‹è½¬è®©æ‰€å¾—" And ynssde >= 0 Then
+        SlFz = "0.20(æˆ¿å±‹è½¬è®©æ‰€å¾—)"
+    ElseIf sdxm = "å…¶ä»–è´¢äº§ç§Ÿèµæ‰€å¾—" Then
+        SlFz = "0.20(å…¶ä»–è´¢äº§ç§Ÿèµæ‰€å¾—)"
+    ElseIf sdxm = "è‚¡æƒè½¬è®©æ‰€å¾—" Or sdxm = "è‚¡ç¥¨è½¬è®©æ‰€å¾—" Or sdxm = "è´¢äº§æ‹å–æ‰€å¾—åŠå›æµæ–‡ç‰©æ‹å–æ‰€å¾—" Then
         SlFz = ""
     Else
         SlFz = ""
@@ -121,7 +118,7 @@ Function SlFz(sdxm As String, sdqjq As Date, sdqjz As Date, ynssde As Double) As
 End Function
 
 
-'ËùµÃÆÚ¼äÖÁ¸³Öµ
+'æ‰€å¾—æœŸé—´è‡³èµ‹å€¼
 Function SdqjzFz(sdqjq As Date) As Date
     
     SdqjzFz = CDate(Year(sdqjq) & "-" & Month(sdqjq) & "-" & Day(DateSerial(Year(sdqjq), Month(sdqjq) + 1, 0)))
