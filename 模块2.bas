@@ -18,7 +18,6 @@ Sub Sfzhmxy()
     Wi = Array("7", "9", "10", "5", "8", "4", "2", "1", "6", "3", "7", "9", "10", "5", "8", "4", "2")
     err = 0
     With ThisWorkbook.Worksheets("扣缴个人所得税报告表") '.Range("D11:E" & MAX_ROWS)
-        t = .Cells(11, 5)
         For c = 11 To MAX_ROWS
             sfzh = .Cells(c, 5)
             If sfzh = "" Then
@@ -26,7 +25,7 @@ Sub Sfzhmxy()
             End If
             If .Cells(c, 4) = "201|居民身份证" Then
             '校验身份证号
-                If xysfzh(sfzh) = 1 Then
+                If xysfzh(sfzh) Then
                     err = 0 + err
                 Else
                     err = 1 + err
@@ -59,39 +58,34 @@ Function getArray(s As String)
     getArray = tmpArray
 End Function
 
-Function xysfzh(sfz As String)
+Function xysfzh(sfz As String) As Boolean
     Dim cd As Integer '身份证号长度
     Dim xyw As String '校验位
     Dim sfzhArray() As Integer
     Dim TotalmulAiWi As Integer
     
     cd = Len(sfz)
-    If cd <> 15 And cd <> 18 Then
-        xysfzh = 0 '身份证号错
+    If cd = 15 And IsNumeric(sfz) Then
+        xysfzh = True '身份证号对
     Else
-         If cd = 18 Then
-            sfzhArray = getArray(sfz)
-            If sfzhArray(1) = 0 Then
-                xysfzh = 0 '身份证号错
-            Else
-                TotalmulAiWi = 0
-                For i = 1 To 17
-                    TotalmulAiWi = sfzhArray(i) * Wi(1) + TotalmulAiWi
-                Next
-                xyw = ValCodeArr(TotalmulAiWi Mod 11)
-                If xyw = Right(sfz, 1) Then
-                    xysfzh = 1 '身份证号对
-                Else
-                    xysfzh = 0 '身份证号错
-                End If
-            End If
-         End If
-         If cd = 15 And IsNumeric(sfz) Then
-            xysfzh = 1 '身份证号对
-         Else
-            xysfzh = 0 '身份证号错
-         End If
-        'res = MsgBox(xyw, vbOKOnly)
-        
+        If cd = 18 Then
+           sfzhArray = getArray(sfz)
+           If sfzhArray(1) = 0 Then
+               xysfzh = False '身份证号错
+           Else
+               TotalmulAiWi = 0
+               For i = 1 To 17
+                   TotalmulAiWi = sfzhArray(i) * Wi(i - 1) + TotalmulAiWi
+               Next
+               xyw = ValCodeArr(TotalmulAiWi Mod 11)
+               If xyw = Right(sfz, 1) Then
+                   xysfzh = True '身份证号对
+               Else
+                   xysfzh = False '身份证号错
+               End If
+           End If
+        Else
+           xysfzh = False '身份证号错
+        End If
     End If
 End Function
