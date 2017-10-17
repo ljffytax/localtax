@@ -2,10 +2,13 @@ Attribute VB_Name = "模块2"
 'ljffytax
 '2017-09-18
 '2017-10-08
+'2017-10-17
 
 Public ValCodeArr
 Public Wi
-
+Sub test()
+    res = smartTrim()
+End Sub
 Sub Sfzhmxy()
     Dim res As Integer
     Dim dlg As String
@@ -18,7 +21,7 @@ Sub Sfzhmxy()
     ValCodeArr = Array("1", "0", "X", "9", "8", "7", "6", "5", "4", "3", "2")
     Wi = Array("7", "9", "10", "5", "8", "4", "2", "1", "6", "3", "7", "9", "10", "5", "8", "4", "2")
     err = 0
-    With ThisWorkbook.Worksheets("扣缴个人所得税报告表") '.Range("D11:E" & MAX_ROWS)
+    With ThisWorkbook.Worksheets("扣缴个人所得税报告表")
         For c = 11 To MAX_ROWS
             sfzh = .Cells(c, 5)
             If sfzh = "" Then
@@ -200,10 +203,43 @@ Sub Check()
             End If
         Next
     End With
-    
+    If Not smartTrim Then
+        Exit Sub
+    End If
     res = MsgBox("校验完成，没发现错误,Good Luck！", vbOKOnly, "恭喜！")
 End Sub
+Function smartTrim() As Boolean
+'根据“姓名”列做自动修剪，自动去掉其它列多余的行
 
+    Dim iLastRow As Long
+    Dim xmRow As Long '姓名列的最后一行
+    Dim x As Long
+    Dim rg As String
+    For i = 2 To 9
+        x = ActiveSheet.Cells(65536, i).End(xlUp).Row
+        If i = 3 Then
+            xmRow = x
+        End If
+        If x > iLastRow And i <> 8 Then '第8列有公式
+            iLastRow = x
+        End If
+    Next
+    For i = 11 To xmRow
+        If (LTrim(ActiveSheet.Cells(i, 3)) = "") Then
+            res = MsgBox("发现(姓名)列有空格没名字，请填好！", vbCritical, "错误！")
+            smartTrim = False
+            Exit Function
+        End If
+    Next
+    If iLastRow - xmRow > 0 Then
+        res = MsgBox("发现多余的行，系统将为您自动修剪！", vbOKOnly, "提示！")
+        rg = "B" & CStr(xmRow + 1) & ":G" & CStr(iLastRow)
+        ThisWorkbook.Sheets(1).Range(rg).ClearContents
+        rg = "I" & CStr(xmRow + 1) & ":I" & CStr(iLastRow)
+        ThisWorkbook.Sheets(1).Range(rg).ClearContents
+    End If
+    smartTrim = True
+End Function
 
 Function isGoodType(s As String, t As String) As Boolean
     'Dim sfzjlx As String '身份证件类型
