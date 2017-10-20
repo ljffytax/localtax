@@ -3,12 +3,11 @@ Attribute VB_Name = "模块2"
 '2017-09-18
 '2017-10-08
 '2017-10-17
+'2017-10-20
 
 Public ValCodeArr
 Public Wi
-Sub test()
-    res = smartTrim()
-End Sub
+
 Sub Sfzhmxy()
     Dim res As Integer
     Dim dlg As String
@@ -133,9 +132,9 @@ Sub Check()
         Exit Sub
     End If
     With ThisWorkbook.Worksheets("扣缴个人所得税报告表")
-        For c = 11 To MAX_ROWS
+        For c = 11 To .Cells(65536, 4).End(xlUp).Row
             If .Cells(c, 2) = "" Then
-                Exit For
+                .Cells(c, 2)="是"
             End If
             If .Cells(c, 2) <> "是" Then
                 res = MsgBox("是否明细申报，一般选(是)，除非你明白自己选(否)的目的！", vbCritical, "注意！")
