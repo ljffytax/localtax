@@ -132,9 +132,9 @@ Sub Check()
         Exit Sub
     End If
     With ThisWorkbook.Worksheets("扣缴个人所得税报告表")
-        For c = 11 To .Cells(65536, 4).End(xlUp).Row
+        For c = 11 To .Cells(65536, 3).End(xlUp).Row
             If .Cells(c, 2) = "" Then
-                .Cells(c, 2)="是"
+                .Cells(c, 2) = "是"
             End If
             If .Cells(c, 2) <> "是" Then
                 res = MsgBox("是否明细申报，一般选(是)，除非你明白自己选(否)的目的！", vbCritical, "注意！")
