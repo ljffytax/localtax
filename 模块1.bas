@@ -1,7 +1,6 @@
 Attribute VB_Name = "模块1"
 '陈梓源,lianjie,神州数码
-'福永地方税务所
-'日期：2016-08-30'2017-07-13'2018-01-13
+'日期：2016-08-30,2017-07-13,2018-01-12,2018-01-22
 '版权所有，请勿传播，勿修改
 
 '法定费用扣除额赋值
@@ -15,7 +14,6 @@ Function FdfykceFz(sdxm As String, sdqjq As Date, sdqjz As Date, sre As Double, 
         ElseIf sdqjq >= #1/9/2011# And sdqjz <= #12/31/2050# And sdqjq <= sdqjz Then
             FdfykceFz = 3500
         End If
-        
         ElseIf sdxm = "外籍人员正常工资薪金" Then
             If sdqjq >= #1/9/1980# And sdqjz <= #12/31/2005# And sdqjq <= sdqjz Then
                 FdfykceFz = 4000
@@ -24,17 +22,14 @@ Function FdfykceFz(sdxm As String, sdqjq As Date, sdqjz As Date, sre As Double, 
             Else
                 FdfykceFz = 0
             End If
-
         ElseIf sdxm = "劳务报酬所得" Or sdxm = "稿酬所得" Or sdxm = "特许权使用费所得" Or sdxm = "其他财产租赁所得" Or sdxm = "个人房屋出租所得" Then
             If (sre - mssd - hj) <= 4000 Then
                 FdfykceFz = 800
             Else
                 FdfykceFz = (sre - mssd - hj) * 0.2
             End If
-            
     Else
         FdfykceFz = 0
-'
     End If
 
 End Function
@@ -123,8 +118,8 @@ End Function
 
 '所得期间至赋值
 Function SdqjzFz(sdqjq As Date) As Date
-    
     SdqjzFz = CDate(Year(sdqjq) & "-" & Month(sdqjq) & "-" & Day(DateSerial(Year(sdqjq), Month(sdqjq) + 1, 0)))
 End Function
+
 
 
