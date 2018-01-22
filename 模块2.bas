@@ -1,6 +1,6 @@
 Attribute VB_Name = "模块2"
 'ljffytax
-'2017-09-18,2017-10-08'2017-10-17'2017-10-20'2018-01-13
+'2017-09-18,2017-10-08,2017-10-17,2017-10-19,2018-01-22
 
 Public ValCodeArr
 Public Wi
@@ -52,7 +52,7 @@ Sub Check()
     
     
     '检验表格结构是否破坏
-    If (ThisWorkbook.Worksheets.Count <> 6) Then
+    If (ThisWorkbook.Worksheets.count <> 6) Then
         res = MsgBox("请不要更改整个表格的结构，不要添加、删除或更改工作表的名字！", vbCritical, "发现错误！")
         Exit Sub
     End If
@@ -80,7 +80,7 @@ Sub Check()
         res = MsgBox("请不要更改整个表格的结构，不要添加、删除或更改工作表的名字！", vbCritical, "发现错误！")
         Exit Sub
     End If
-    If (ThisWorkbook.Sheets(1).Cells(6, 32) <> "备注") Then
+    If (ThisWorkbook.Sheets(1).Cells(6, 33) <> "备注") Then
         res = MsgBox("请不要对表格进行添加或删除列操作！", vbCritical, "发现错误！")
         Exit Sub
     End If
@@ -129,7 +129,7 @@ Sub Check()
         Exit Sub
     End If
     With ThisWorkbook.Worksheets("扣缴个人所得税报告表")
-        For c = 11 To .Cells(65536, 3).End(xlUp).Row
+        For c = 11 To ActiveSheet.Cells(65536, 4).End(xlUp).Row '以姓名列为标准
             If .Cells(c, 2) = "" Then
                 .Cells(c, 2) = "是"
             End If
@@ -347,3 +347,97 @@ Function xysfzh(sfz As String) As Boolean
         End If
     End If
 End Function
+
+Function autoWidth()
+    Dim i As Integer
+    Dim n As Integer
+    
+    Range("A11:AG5000").Font.Name = "宋体"
+    Range("A11:AG5000").Font.Size = 9
+    With Sheets(1)
+        '对非数字列宽度硬编码智障处理
+        '9号宋体宽字符约1.521宽度一个，
+        '表格中能正常显示时打印出来不一定能完全显示，所以下列数据已经适当调宽了一些
+        .Cells(11, 1).ColumnWidth = 1.521
+        .Cells(11, 2).ColumnWidth = 1.521
+        .Cells(11, 3).ColumnWidth = 1.521 * 4
+        .Cells(11, 4).ColumnWidth = 1.521 * 8
+        .Cells(11, 5).ColumnWidth = 1.521 * 10
+        .Cells(11, 6).ColumnWidth = 1.521 * 10
+        .Cells(11, 7).ColumnWidth = 1.521 * 6
+        .Cells(11, 8).ColumnWidth = 1.521 * 6
+        .Cells(11, 25).ColumnWidth = 1.521 * 9
+        .Cells(11, 26).ColumnWidth = 1.521 * 5
+        .Cells(11, 28).ColumnWidth = 1.521 * 2
+        .Cells(11, 33).ColumnWidth = 1.521 * 2
+        For i = 1 To 33
+            If IsNumeric(.Cells(10, i).Value) Then
+                .Cells(10, i).ColumnWidth = FormatLenth(.Cells(10, i).Value) * 0.88 + 0.7 '加宽一个单位才能正常显示
+            End If
+        Next i
+    End With
+End Function
+
+'获取格式化后数字的长度 如 12345.1 格式化后 12,345.10 的长度
+Function FormatLenth(num As Double) As Integer
+    Dim num_arr
+    Dim n As Integer
+    Dim count As Integer
+    
+    num_arr = Split(CStr(num), ".")
+    count = (UBound(num_arr) - LBound(num_arr) + 1)
+    n = Len(CStr(num_arr(0)))
+    If n Mod 3 = 0 Then
+        n = n + Int(n / 3) - 1
+    Else
+        n = n + Int(n / 3)
+    End If
+    FormatLenth = n + 3
+End Function
+
+Sub Print2A4Size()
+    Dim lastRow As Integer
+    Dim printArea As String
+    Dim res As String
+    
+    lastRow = ActiveSheet.Cells(65536, 3).End(xlUp).Row
+    If lastRow < 11 Then
+        res = MsgBox("没有有效的数据无法打印！", vbOKOnly)
+        Exit Sub
+    End If
+    res = autoWidth()
+    printArea = "A1:AG" + CStr(lastRow)
+    ActiveSheet.PageSetup.printArea = printArea
+    With ActiveSheet.PageSetup
+        .LeftMargin = Application.InchesToPoints(0.354) '设置边距为0.354英寸 sad..
+        .RightMargin = Application.InchesToPoints(0.354)
+        .TopMargin = Application.InchesToPoints(0.393)
+        .BottomMargin = Application.InchesToPoints(0.393)
+        '.HeaderMargin = Application.InchesToPoints(0)
+        '.FooterMargin = Application.InchesToPoints(0)
+        .PrintHeadings = False
+        .PrintGridlines = False
+        '.PrintComments = xlPrintNoComments
+        .PrintQuality = 600
+        .CenterHorizontally = False
+        .CenterVertically = False
+        '.Orientation = xlLandscape
+        '.Draft = False
+        .PaperSize = xlPaperA4
+        .FirstPageNumber = xlAutomatic
+        .Order = xlDownThenOver
+        .BlackAndWhite = False
+        '.Zoom = False
+        .FitToPagesWide = 1
+        .FitToPagesTall = False
+        .PrintErrors = xlPrintErrorsDisplayed
+    End With
+    ActiveWindow.SelectedSheets.PrintPreview
+End Sub
+
+Sub Resize()
+    With Sheets(1)
+        .Range("A:A").ColumnWidth = 6
+        .Range("B:AG").ColumnWidth = 14
+    End With
+End Sub
