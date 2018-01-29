@@ -1,6 +1,6 @@
 Attribute VB_Name = "模块2"
 'ljffytax
-'2017-09-18,2017-10-08,2017-10-17,2017-10-19,2018-01-22
+'2017-09-18,2017-10-08,2017-10-17,2017-10-19,2018-01-22,2018-01-23,2018-01-24,2018-01-29
 
 Public ValCodeArr
 Public Wi
@@ -108,7 +108,7 @@ Sub Check()
         res = MsgBox("请填写纳税人名称！", vbCritical, "发现错误！")
         Exit Sub
     End If
-    If (ThisWorkbook.Sheets(1).Cells(3, 31) = "") Then
+    If (ThisWorkbook.Sheets(1).Cells(3, 32) = "") Then
         res = MsgBox("请填写经办人姓名！", vbCritical, "发现错误！")
         Exit Sub
     End If
@@ -124,12 +124,16 @@ Sub Check()
         res = MsgBox("申报金额没有填写，如果是零，请填写0！", vbCritical, "发现错误！")
         Exit Sub
     End If
+    If (ThisWorkbook.Sheets(1).Cells(4, 22) = "是") Then
+        res = MsgBox("(应扣未扣)一栏应填写 否！", vbCritical, "发现错误！")
+        Exit Sub
+    End If
     If (ThisWorkbook.Sheets(1).Cells(11, 2) = "") Then
         res = MsgBox("请选择是否明细申报，一般应选(是)！", vbCritical, "发现错误！")
         Exit Sub
     End If
     With ThisWorkbook.Worksheets("扣缴个人所得税报告表")
-        For c = 11 To ActiveSheet.Cells(65536, 4).End(xlUp).Row '以姓名列为标准
+        For c = 11 To ActiveSheet.Cells(65536, 3).End(xlUp).Row '以姓名列为标准
             If .Cells(c, 2) = "" Then
                 .Cells(c, 2) = "是"
             End If
@@ -199,18 +203,23 @@ Sub Check()
             End If
         Next
     End With
-    If Not smartTrim Then
-        Exit Sub
+    If isRepeatedsfzh Then
+        res = MsgBox("请修改后再检查一次，谢谢", vbOKOnly, "错误！")
+    Else
+        If Not smartTrim Then
+            Exit Sub
+        End If
+        res = MsgBox("校验完成，没发现错误,Good Luck！", vbOKOnly, "恭喜！")
     End If
-    res = MsgBox("校验完成，没发现错误,Good Luck！", vbOKOnly, "恭喜！")
 End Sub
-Function smartTrim() As Boolean
-'根据“姓名”列做自动修剪，自动去掉其它列多余的行
 
+'根据“姓名”列做自动修剪，自动去掉其它列多余的行
+Function smartTrim() As Boolean
     Dim iLastRow As Long
     Dim xmRow As Long '姓名列的最后一行
     Dim x As Long
     Dim rg As String
+    
     For i = 2 To 9
         x = ActiveSheet.Cells(65536, i).End(xlUp).Row
         If i = 3 Then
@@ -348,17 +357,121 @@ Function xysfzh(sfz As String) As Boolean
     End If
 End Function
 
+'类似于字典对key进行排序，只是这里的key允许重复
+'SelectionSort(key,value)
+Function SelectionSort(TempArray As Variant, TempValueArray As Variant)
+    Dim MaxVal As Variant
+    Dim MaxTempVal As Variant
+    Dim MaxIndex As Integer
+    Dim i, j As Integer
+ 
+    For i = UBound(TempArray) To 1 Step -1
+        MaxVal = TempArray(i)
+        MaxIndex = i
+        MaxTempVal = TempValueArray(i)
+        For j = 1 To i
+            If TempArray(j) > MaxVal Then
+                MaxVal = TempArray(j)
+                MaxIndex = j
+                MaxTempVal = TempValueArray(j)
+            End If
+        Next j
+        If MaxIndex < i Then
+            TempArray(MaxIndex) = TempArray(i)
+            TempValueArray(MaxIndex) = TempValueArray(i)
+            TempArray(i) = MaxVal
+            TempValueArray(i) = MaxTempVal
+        End If
+    Next i
+End Function
+
+'找出是否有同身份证号不同名字的情况
+Function isRepeatedsfzh() As Boolean
+    Dim sfzhArray() As Variant
+    Dim NameArray() As Variant
+    Dim i As Integer
+    Dim k As Integer
+    Dim lastRow As Integer
+    Dim last As Integer
+    Dim fast As Integer
+    Dim slow As Integer
+    Dim bad As Integer
+    Dim badsfzh(100) As Variant
+    Dim sbadsfzh As String
+    
+    ' Create the array.
+    ReDim sfzhArray(65535)
+    ReDim NameArray(65535)
+    lastRow = ActiveSheet.Cells(65536, 3).End(xlUp).Row
+    k = 0
+    bad = 0
+    With ThisWorkbook.Sheets(1)
+    For i = 11 To lastRow
+        If .Cells(i, 4) = "201|居民身份证" Then
+            If .Cells(i, 5) <> "" Then
+                sfzhArray(k) = .Cells(i, 5)
+            Else
+                sfzhArray(k) = "1111"
+            End If
+            If .Cells(i, 3) <> "" Then
+                NameArray(k) = .Cells(i, 3)
+            Else
+                NameArray(k) = "NameIsNull"
+            End If
+            k = k + 1
+        End If
+    Next i
+    End With
+    ReDim Preserve sfzhArray(k)
+    ReDim Preserve NameArray(k)
+    ' Sort the Array and display the values in order.
+    SelectionSort sfzhArray, NameArray
+    last = k - 1
+    For i = 0 To last
+        fast = i
+        slow = i
+        For fast = i + 1 To last
+            If sfzhArray(fast) <> sfzhArray(i) Then
+                Exit For
+            End If
+        Next fast
+        If fast > slow + 1 Then '有重复的号码
+            For k = slow To fast - 1
+                If NameArray(k) <> NameArray(slow) Then '号码重复并且名字不同表示同一号码下存在多个姓名
+                    badsfzh(bad) = sfzhArray(slow)
+                    bad = bad + 1
+                    Exit For
+                End If
+            Next k
+        End If
+        slow = fast
+        i = fast - 1
+    Next i
+    
+    If bad > 0 Then
+        For i = 0 To bad - 1
+            sbadsfzh = sbadsfzh & CStr(badsfzh(i)) & ","
+        Next i
+        res = MsgBox(sbadsfzh, vbCritical, "多人使用同一身份证号！")
+        isRepeatedsfzh = True
+    Else
+        isRepeatedsfzh = False
+    End If
+End Function
+
 Function autoWidth()
     Dim i As Integer
     Dim n As Integer
+    Dim lastRow As Integer
     
     Range("A11:AG5000").Font.Name = "宋体"
     Range("A11:AG5000").Font.Size = 9
+    lastRow = ActiveSheet.Cells(65536, 3).End(xlUp).Row - 10
     With Sheets(1)
         '对非数字列宽度硬编码智障处理
         '9号宋体宽字符约1.521宽度一个，
         '表格中能正常显示时打印出来不一定能完全显示，所以下列数据已经适当调宽了一些
-        .Cells(11, 1).ColumnWidth = 1.521
+        .Cells(11, 1).ColumnWidth = 0.88 * Len(CStr(lastRow))
         .Cells(11, 2).ColumnWidth = 1.521
         .Cells(11, 3).ColumnWidth = 1.521 * 4
         .Cells(11, 4).ColumnWidth = 1.521 * 8
@@ -418,7 +531,7 @@ Sub Print2A4Size()
         .PrintHeadings = False
         .PrintGridlines = False
         '.PrintComments = xlPrintNoComments
-        .PrintQuality = 600
+        '.PrintQuality = 600
         .CenterHorizontally = False
         .CenterVertically = False
         '.Orientation = xlLandscape
@@ -440,4 +553,8 @@ Sub Resize()
         .Range("A:A").ColumnWidth = 6
         .Range("B:AG").ColumnWidth = 14
     End With
+End Sub
+
+Sub About()
+    res = MsgBox("祝您使用愉快^_^有问题可联系577707360@qq.com", vbOKOnly)
 End Sub
