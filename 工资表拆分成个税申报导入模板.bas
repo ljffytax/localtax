@@ -13,7 +13,7 @@ Sub splitByCompanyName()
     '个税申报表模板字段
     companyWorkBookTitle = Array("工号", "*姓名", "*证件类型", "*证件号码", "本期收入", _
     "本期免税收入", "基本养老保险费", "基本医疗保险费", "失业保险费", "住房公积金", "累计子女教育", _
-    "累计继续教育", "累计住房贷款利息", "累计住房租金", "累计赡养老人", , "累计3岁以下婴幼儿照护", _
+    "累计继续教育", "累计住房贷款利息", "累计住房租金", "累计赡养老人", "累计3岁以下婴幼儿照护", _
     "累计个人养老金", "企业(职业)年金", "商业健康保险", "税延养老保险", "其他", "准予扣除的捐赠额", _
     "减免税额", "备注")
     stName = "人力工资表"
@@ -42,9 +42,12 @@ Sub splitByCompanyName()
         For fast = low + 1 To 65535
             If ThisWorkbook.Worksheets(stName).Cells(low, 28) <> ThisWorkbook.Worksheets(stName).Cells(fast, 28) Then 'AB列，即公司名字列
                 Set companyWorkBook = createNewWorkBook(ThisWorkbook.Worksheets(stName).Cells(low, 28))
-                For n = 0 To UBound(companyWorkBookTitle)
-                    companyWorkBook.Worksheets("正常工资薪金收入").Cells(1, n + 1) = companyWorkBookTitle(n)
-                Next n
+                With companyWorkBook.Worksheets("正常工资薪金收入")
+                    For n = 0 To UBound(companyWorkBookTitle)
+                        .Cells(1, n + 1) = companyWorkBookTitle(n)
+                        .Cells(1, n + 1).Interior.Color = 16772300
+                    Next n
+                End With
                 ThisWorkbook.Worksheets(stName).Range("B" & CStr(low) & ":B" & CStr(fast - 1)).Copy _
                 Destination:=companyWorkBook.Worksheets("正常工资薪金收入").Range("B2")
                 companyWorkBook.Worksheets("正常工资薪金收入").Range("C2:C" & CStr(fast - low + 1)) = "居民身份证"
