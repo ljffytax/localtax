@@ -1,21 +1,22 @@
-Attribute VB_Name = "Ä£¿é1"
-'Author ljffytax 2023-06-22 V0.01
+Attribute VB_Name = "æ¨¡å—1"
+'Author lianjie (muche) 2023-06-30 V0.02
 'GNU GPLv2
-'¹¤×Ê±í±íÍ·×Ö¶Î£º
-'ĞòºÅ|ĞÕÃû|»¨Ãû|ĞÔ±ğ|Éí·İÖ¤ºÅÂë|²¿ÃÅ|¸ÚÎ»|ÈëÖ°ÈÕÆÚ|ÀëÖ°ÈÕÆÚ|Ë°Ç°ÊÕÈë|ÑøÀÏ±£ÏÕ|Ò½ÁÆ±£ÏÕ|Ê§Òµ±£ÏÕ|²Ğ±£½ğ|
-'ÆäËûÉç±£·ÑÓÃ|¹«»ı½ğ|ÀÛ¼Æ×ÓÅ®½ÌÓı|ÀÛ¼Æ¼ÌĞø½ÌÓı|ÀÛ¼Æ×¡·¿´û¿îÀûÏ¢|ÀÛ¼Æ×¡·¿×â½ğ|ÀÛ¼ÆÉÄÑøÀÏÈË|ÀÛ¼ÆÓ¤Ó×¶ùÕÕ»¤·Ñ|
-'ÀÛ¼Æ¸öÈËÑøÀÏ½ğ|×¨Ïî¸½¼Ó¿Û³ıºÏ¼Æ|ÀëÖ°²¹³¥½ğ|±¾ÔÂË°¶î¸öÈËËùµÃË°|Ë°ºó²¹·¢|¹«Ë¾Ãû³Æ|ÊÖ»úºÅÂë|Ãâ³ı·ÑÓÃ|±¸×¢|ÊÇ·ñÓĞĞŞ¸Ä
+'å·¥èµ„è¡¨è¡¨å¤´å­—æ®µï¼š
+'åºå·|å§“å|èŠ±å|æ€§åˆ«|èº«ä»½è¯å·ç |éƒ¨é—¨|å²—ä½|å…¥èŒæ—¥æœŸ|ç¦»èŒæ—¥æœŸ|ç¨å‰æ”¶å…¥|å…»è€ä¿é™©|åŒ»ç–—ä¿é™©|å¤±ä¸šä¿é™©|æ®‹ä¿é‡‘|
+'å…¶ä»–ç¤¾ä¿è´¹ç”¨|å…¬ç§¯é‡‘|ç´¯è®¡å­å¥³æ•™è‚²|ç´¯è®¡ç»§ç»­æ•™è‚²|ç´¯è®¡ä½æˆ¿è´·æ¬¾åˆ©æ¯|ç´¯è®¡ä½æˆ¿ç§Ÿé‡‘|ç´¯è®¡èµ¡å…»è€äºº|ç´¯è®¡å©´å¹¼å„¿ç…§æŠ¤è´¹|
+'ç´¯è®¡ä¸ªäººå…»è€é‡‘|ä¸“é¡¹é™„åŠ æ‰£é™¤åˆè®¡|ç¦»èŒè¡¥å¿é‡‘|æœ¬æœˆç¨é¢ä¸ªäººæ‰€å¾—ç¨|ç¨åè¡¥å‘|å…¬å¸åç§°|æ‰‹æœºå·ç |å…é™¤è´¹ç”¨|å¤‡æ³¨|æ˜¯å¦æœ‰ä¿®æ”¹
 
 Sub splitByCompanyName()
     Dim stName As String
     Dim companyWorkBook As Workbook
     Dim person As Integer
-	'¸öË°Éê±¨±íÄ£°å×Ö¶Î
-    companyWorkBookTitle = Array("¹¤ºÅ", "ĞÕÃû", "*Ö¤ÕÕÀàĞÍ", "*Ö¤ÕÕºÅÂë", "*±¾ÆÚÊÕÈë", _
-    "±¾ÆÚÃâË°ÊÕÈë", "»ù±¾ÑøÀÏ±£ÏÕ·Ñ", "»ù±¾Ò½ÁÆ±£ÏÕ·Ñ", "Ê§Òµ±£ÏÕ·Ñ", "×¡·¿¹«»ı½ğ", "ÀÛ¼Æ×ÓÅ®½ÌÓı", _
-    "ÀÛ¼Æ¼ÌĞø½ÌÓı", "ÀÛ¼Æ×¡·¿´û¿îÀûÏ¢", "ÀÛ¼Æ×¡·¿×â½ğ", "ÀÛ¼ÆÉÄÑøÀÏÈË", "ÆóÒµ(Ö°Òµ)Äê½ğ", _
-    "ÉÌÒµ½¡¿µ±£ÏÕ", "Ë°ÑÓÑøÀÏ±£ÏÕ", "ÆäËû", "×¼Óè¿Û³ıµÄ¾èÔù¶î", "¼õÃâË°¶î", "±¸×¢")
-    stName = "ÈËÁ¦¹¤×Ê±í"
+    'ä¸ªç¨ç”³æŠ¥è¡¨æ¨¡æ¿å­—æ®µ
+    companyWorkBookTitle = Array("å·¥å·", "*å§“å", "*è¯ä»¶ç±»å‹", "*è¯ä»¶å·ç ", "æœ¬æœŸæ”¶å…¥", _
+    "æœ¬æœŸå…ç¨æ”¶å…¥", "åŸºæœ¬å…»è€ä¿é™©è´¹", "åŸºæœ¬åŒ»ç–—ä¿é™©è´¹", "å¤±ä¸šä¿é™©è´¹", "ä½æˆ¿å…¬ç§¯é‡‘", "ç´¯è®¡å­å¥³æ•™è‚²", _
+    "ç´¯è®¡ç»§ç»­æ•™è‚²", "ç´¯è®¡ä½æˆ¿è´·æ¬¾åˆ©æ¯", "ç´¯è®¡ä½æˆ¿ç§Ÿé‡‘", "ç´¯è®¡èµ¡å…»è€äºº", , "ç´¯è®¡3å²ä»¥ä¸‹å©´å¹¼å„¿ç…§æŠ¤", _
+    "ç´¯è®¡ä¸ªäººå…»è€é‡‘", "ä¼ä¸š(èŒä¸š)å¹´é‡‘", "å•†ä¸šå¥åº·ä¿é™©", "ç¨å»¶å…»è€ä¿é™©", "å…¶ä»–", "å‡†äºˆæ‰£é™¤çš„æèµ é¢", _
+    "å‡å…ç¨é¢", "å¤‡æ³¨")
+    stName = "äººåŠ›å·¥èµ„è¡¨"
     person = 0
     Application.DisplayAlerts = False
     Application.ScreenUpdating = False
@@ -39,35 +40,35 @@ Sub splitByCompanyName()
             Exit For
         End If
         For fast = low + 1 To 65535
-            If ThisWorkbook.Worksheets(stName).Cells(low, 28) <> ThisWorkbook.Worksheets(stName).Cells(fast, 28) Then 'ABÁĞ£¬¼´¹«Ë¾Ãû×ÖÁĞ
+            If ThisWorkbook.Worksheets(stName).Cells(low, 28) <> ThisWorkbook.Worksheets(stName).Cells(fast, 28) Then 'ABåˆ—ï¼Œå³å…¬å¸åå­—åˆ—
                 Set companyWorkBook = createNewWorkBook(ThisWorkbook.Worksheets(stName).Cells(low, 28))
                 For n = 0 To UBound(companyWorkBookTitle)
-                    companyWorkBook.Worksheets("Õı³£¹¤×ÊĞ½½ğ").Cells(1, n + 1) = companyWorkBookTitle(n)
+                    companyWorkBook.Worksheets("æ­£å¸¸å·¥èµ„è–ªé‡‘æ”¶å…¥").Cells(1, n + 1) = companyWorkBookTitle(n)
                 Next n
                 ThisWorkbook.Worksheets(stName).Range("B" & CStr(low) & ":B" & CStr(fast - 1)).Copy _
-                Destination:=companyWorkBook.Worksheets("Õı³£¹¤×ÊĞ½½ğ").Range("B2")
-                companyWorkBook.Worksheets("Õı³£¹¤×ÊĞ½½ğ").Range("C2:C" & CStr(fast - low + 1)) = "¾ÓÃñÉí·İÖ¤"
+                Destination:=companyWorkBook.Worksheets("æ­£å¸¸å·¥èµ„è–ªé‡‘æ”¶å…¥").Range("B2")
+                companyWorkBook.Worksheets("æ­£å¸¸å·¥èµ„è–ªé‡‘æ”¶å…¥").Range("C2:C" & CStr(fast - low + 1)) = "å±…æ°‘èº«ä»½è¯"
                 ThisWorkbook.Worksheets(stName).Range("E" & CStr(low) & ":E" & CStr(fast - 1)).Copy _
-                Destination:=companyWorkBook.Worksheets("Õı³£¹¤×ÊĞ½½ğ").Range("D2") 'Éí·İÖ¤ºÅ
+                Destination:=companyWorkBook.Worksheets("æ­£å¸¸å·¥èµ„è–ªé‡‘æ”¶å…¥").Range("D2") 'èº«ä»½è¯å·
                 ThisWorkbook.Worksheets(stName).Range("J" & CStr(low) & ":J" & CStr(fast - 1)).Copy _
-                Destination:=companyWorkBook.Worksheets("Õı³£¹¤×ÊĞ½½ğ").Range("E2") 'ÊÕÈë
+                Destination:=companyWorkBook.Worksheets("æ­£å¸¸å·¥èµ„è–ªé‡‘æ”¶å…¥").Range("E2") 'æ”¶å…¥
                 ThisWorkbook.Worksheets(stName).Range("K" & CStr(low) & ":M" & CStr(fast - 1)).Copy _
-                Destination:=companyWorkBook.Worksheets("Õı³£¹¤×ÊĞ½½ğ").Range("G2") 'ÈıÏÕ
+                Destination:=companyWorkBook.Worksheets("æ­£å¸¸å·¥èµ„è–ªé‡‘æ”¶å…¥").Range("G2") 'ä¸‰é™©
                 ThisWorkbook.Worksheets(stName).Range("P" & CStr(low) & ":P" & CStr(fast - 1)).Copy _
-                Destination:=companyWorkBook.Worksheets("Õı³£¹¤×ÊĞ½½ğ").Range("J2") '¹«»ı½ğ
+                Destination:=companyWorkBook.Worksheets("æ­£å¸¸å·¥èµ„è–ªé‡‘æ”¶å…¥").Range("J2") 'å…¬ç§¯é‡‘
                 If Application.Version > 11 Then 'execl 2003
-                    companyWorkBook.CheckCompatibility = False '¼æÈİĞÔ¼ì²é
+                    companyWorkBook.CheckCompatibility = False 'å…¼å®¹æ€§æ£€æŸ¥
                 End If
                 companyWorkBook.Save
                 companyWorkBook.Close
                 person = person + fast - low
-                low = fast - 1 'ÏÂÒ»ÂÖÑ­»· For »á¼Ó1£¬ËùÒÔÕâÀïÌáÇ°¼õÈ¥
+                low = fast - 1 'ä¸‹ä¸€è½®å¾ªç¯ For ä¼šåŠ 1ï¼Œæ‰€ä»¥è¿™é‡Œæå‰å‡å»
                 Exit For
             End If
         Next fast
     Next low
     Application.ScreenUpdating = Ture
-    r = MsgBox("²ğ·ÖÍê³É¹²" & CStr(person) & "ÈË", vbOKOnly)
+    r = MsgBox("æ‹†åˆ†å®Œæˆå…±" & CStr(person) & "äºº", vbOKOnly)
 End Sub
 
 Function createNewWorkBook(companyName As String) As Object
@@ -76,9 +77,9 @@ Function createNewWorkBook(companyName As String) As Object
     With NewBook
         .Title = companyName
         .Subject = companyName
-        .SaveAs Filename:=ThisWorkbook.Path & "\" & companyName & ".xls"
+        .SaveAs Filename:=ThisWorkbook.Path & "\" & companyName & ".xlsx"
     End With
-    NewBook.Sheets(1).Name = "Õı³£¹¤×ÊĞ½½ğ"
+    NewBook.Sheets(1).Name = "æ­£å¸¸å·¥èµ„è–ªé‡‘æ”¶å…¥"
     Set createNewWorkBook = NewBook
 End Function
 
