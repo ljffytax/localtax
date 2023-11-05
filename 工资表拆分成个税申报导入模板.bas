@@ -1,5 +1,5 @@
 Attribute VB_Name = "模块1"
-'Author lianjie (muche) 2023-06-30 V0.02
+'Author ljffytax 2023-06-30 V0.02
 'GNU GPLv2
 '工资表表头字段：
 '序号|姓名|花名|性别|身份证号码|部门|岗位|入职日期|离职日期|税前收入|养老保险|医疗保险|失业保险|残保金|
